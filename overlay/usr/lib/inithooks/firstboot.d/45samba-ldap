@@ -1,0 +1,9 @@
+#!/bin/bash -e
+# set samba ldap binddn, password and server
+
+. /etc/default/inithooks
+
+[ -e $INITHOOKS_CONF ] && . $INITHOOKS_CONF
+
+$INITHOOKS_PATH/bin/samba-ldap.py --base="$LDAP_BASEDN" --binddn="$SAMBA_BINDDN" --pass="$SAMBA_PASS" --server="$LDAP_SERVER"
+

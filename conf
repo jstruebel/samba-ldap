@@ -1,0 +1,23 @@
+#!/bin/bash -ex
+install()
+{
+    apt-get update
+    DEBIAN_FRONTEND=noninteractive apt-get -y \
+        -o DPkg::Options::=--force-confdef \
+        -o DPkg::Options::=--force-confold \
+        install $@
+}
+
+# remove session interactive only setting from mkhomedir pam config
+CONF=/usr/share/pam-configs/mkhomedir
+sed -i "/Session-Interactive-Only/d" $CONF
+
+# remove the smbpasswd-migrate pam config
+rm /usr/share/pam-configs/smbpasswd-migrate
+
+pam-auth-update --package
+
+# add ldap configurations to samba
+CONF=/etc/samba/smb.conf
+sed -i "s|passdb backend.*|passdb backend = ldapsam:ldap://127.0.0.1\n\n    ldap ssl = off\n    ldap user suffix = ou=Users\n    ldap machine suffix = ou=Hosts\n    ldap group suffix = ou=Groups\n    ldap suffix = dc=example,dc=com\n    ldap admin dn = cn=samba,dc=example,dc=com|" $CONF
+
