@@ -29,6 +29,8 @@ LDAP_BASEDN=$2
 LDAP_BINDDN=$3
 LDAP_PASS=$4
 
+SAMBA_SID=`net gelocalsid | awk '{print $6}'`
+
 SAMBA_RUNNING=$(/etc/init.d/samba status > /dev/null; echo $?)
 
 # update samba config with ldap parameters
@@ -36,6 +38,7 @@ CONF=/etc/samba/smb.conf
 sed -i "s|passdb backend.*|passdb backend = ldapsam:$LDAP_SERVER|" $CONF
 sed -i "s|ldap suffix.*|ldap suffix = $LDAP_BASEDN|" $CONF
 sed -i "s|ldap admin dn.*|ldap admin dn = $LDAP_BINDDN|" $CONF
+sed -i "s|idmap backend.*|idmap backend = ldap:$LDAP_SERVER|" $CONF
 
 smbpasswd -w $LDAP_PASS
 
