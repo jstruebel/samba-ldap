@@ -8,6 +8,9 @@ install()
         install $@
 }
 
+# install ldap-utils for username maps script
+install ldap-utils
+
 # remove session interactive only setting from mkhomedir pam config
 CONF=/usr/share/pam-configs/mkhomedir
 sed -i "/Session-Interactive-Only/d" $CONF
