@@ -19,5 +19,5 @@ pam-auth-update --package
 
 # add ldap configurations to samba
 CONF=/etc/samba/smb.conf
-sed -i "s|passdb backend.*|passdb backend = ldapsam:ldap://127.0.0.1\n\n    ldap ssl = off\n    ldap user suffix = ou=Users\n    ldap machine suffix = ou=Hosts\n    ldap group suffix = ou=Groups\n    ldap idmap suffix = ou=Idmaps\n    ldap suffix = dc=example,dc=com\n    ldap admin dn = cn=samba,dc=example,dc=com\n\n    idmap backend = ldap:ldap://127.0.0.1\n    idmap uid = 15000-55000\n    idmap gid = 15000-55000\n    template shell = /bin/bash|" $CONF
+sed -i "s|passdb backend.*|passdb backend = ldapsam:ldap://127.0.0.1\n\n    ldap ssl = off\n    ldap user suffix = ou=Users\n    ldap machine suffix = ou=Hosts\n    ldap group suffix = ou=Groups\n    ldap idmap suffix = ou=Idmaps\n    ldap suffix = dc=example,dc=com\n    ldap admin dn = cn=samba,dc=example,dc=com\n\n    idmap backend = ldap:ldap://127.0.0.1\n    idmap uid = 15000-55000\n    idmap gid = 15000-55000\n    template shell = /bin/bash\n\nusername map script = /usr/local/bin/ldapmapuser.sh|" $CONF
 
