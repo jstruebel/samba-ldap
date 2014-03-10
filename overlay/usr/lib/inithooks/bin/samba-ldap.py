@@ -54,7 +54,7 @@ def main():
 
         ldap_base = d.get_input(
             "LDAP Base",
-            "Enter the LDAP Base.",
+            "Enter the LDAP Base DN.",
             DEFAULT_BASE)
 
     if ldap_base == "DEFAULT":
@@ -75,7 +75,7 @@ def main():
 
         password = d.get_password(
             "LDAP User Password",
-            "Enter new password for the samba LDAP user account.")
+            "Enter the password for the " + ldap_user + " user account.")
 
     if not server:
         if 'd' not in locals():
