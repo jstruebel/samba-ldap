@@ -47,10 +47,6 @@ net getlocalsid > /dev/null
 CONF=/usr/local/bin/ldapmapuser.sh
 sed -i "s|ldap:.*|ldap://$LDAP_SERVER -b \"$LDAP_BASEDN\" \\\\|" $CONF
 
-# restart samba if it was running, or stop it
-if [ "$SAMBA_RUNNING" == "0" ]; then
-    /etc/init.d/samba restart
-else
-    /etc/init.d/samba stop
-fi
+# restart samba to reload the config
+/etc/init.d/samba restart
 
