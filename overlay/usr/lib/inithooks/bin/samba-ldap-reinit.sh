@@ -29,9 +29,6 @@ LDAP_BASEDN=$2
 LDAP_BINDDN=$3
 LDAP_PASS=$4
 
-# stop samba
-/etc/init.d/samba stop
-
 # update samba config with ldap parameters
 CONF=/etc/samba/smb.conf
 sed -i "s|passdb backend.*|passdb backend = ldapsam:ldap://$LDAP_SERVER|" $CONF
@@ -48,6 +45,7 @@ net getlocalsid > /dev/null
 CONF=/usr/local/bin/ldapmapuser.sh
 sed -i "s|ldap:.*|ldap://$LDAP_SERVER -b \"$LDAP_BASEDN\" \\\\|" $CONF
 
-# start samba to reload the config
+# enable samba on system startup and start daemon
+update-rc.d samba defaults
 /etc/init.d/samba start
 
