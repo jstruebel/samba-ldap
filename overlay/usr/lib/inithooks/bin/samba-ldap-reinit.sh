@@ -29,7 +29,8 @@ LDAP_BASEDN=$2
 LDAP_BINDDN=$3
 LDAP_PASS=$4
 
-SAMBA_RUNNING=$(/etc/init.d/samba status > /dev/null; echo $?)
+# stop samba
+/etc/init.d/samba stop
 
 # update samba config with ldap parameters
 CONF=/etc/samba/smb.conf
@@ -47,6 +48,6 @@ net getlocalsid > /dev/null
 CONF=/usr/local/bin/ldapmapuser.sh
 sed -i "s|ldap:.*|ldap://$LDAP_SERVER -b \"$LDAP_BASEDN\" \\\\|" $CONF
 
-# restart samba to reload the config
-/etc/init.d/samba restart
+# start samba to reload the config
+/etc/init.d/samba start
 
