@@ -26,3 +26,8 @@ sed -i "s|passdb backend.*|passdb backend = ldapsam:ldap://127.0.0.1\n\n    ldap
 
 # prevent samba from starting on system boot until LDAP settings are configured
 update-rc.d -f samba remove
+SAMBA_INIT=/etc/samba/samba_init
+cat>$SAMBA_INIT<<EOF
+export SAMBA_FIRSTBOOT=1
+EOF
+
