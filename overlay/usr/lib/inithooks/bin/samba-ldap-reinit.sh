@@ -30,7 +30,7 @@ LDAP_BINDDN=$3
 LDAP_PASS=$4
 
 SAMBA_INIT=/etc/samba/samba_init
-[ -e $SAMBA_INIT ] $$ . $SAMBA_INIT
+[ -e $SAMBA_INIT ] && . $SAMBA_INIT
 
 # update samba config with ldap parameters
 CONF=/etc/samba/smb.conf
