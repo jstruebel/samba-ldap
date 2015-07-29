@@ -94,7 +94,7 @@ def main():
         firstboot = 0
 
     script = os.path.join(os.path.dirname(__file__), 'samba-ldap-reinit.sh')
-    system(script, server, ldap_base, ldap_user, password, firstboot)
+    system(script, server, ldap_base, ldap_user, password, str(firstboot))
 
 if __name__ == "__main__":
     main()
