@@ -30,7 +30,7 @@ DEFAULT_SERVER='127.0.0.1'
 def main():
     try:
         opts, args = getopt.gnu_getopt(sys.argv[1:], "h",
-                                       ['help', 'base=', 'binddn=', 'pass=', 'server='])
+                                       ['help', 'base=', 'binddn=', 'pass=', 'server=', 'firstboot='])
     except getopt.GetoptError, e:
         usage(e)
 
