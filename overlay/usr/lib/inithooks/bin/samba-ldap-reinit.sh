@@ -7,7 +7,7 @@ fatal() {
 
 usage() {
 cat<<EOF
-Syntax: $(basename $0) server base binddn password
+Syntax: $(basename $0) server base binddn password firstboot
 Re-initialize Samba LDAP config
 
 Arguments:
@@ -15,12 +15,13 @@ Arguments:
     base            # LDAP directory base
     binddn          # LDAP user
     password        # LDAP user password
+    firstboot       # Indicates first boot with default params
 
 EOF
     exit 1
 }
 
-if [[ "$#" != "4" ]]; then
+if [[ "$#" != "5" ]]; then
     usage
 fi
 
@@ -28,6 +29,7 @@ LDAP_SERVER=$1
 LDAP_BASEDN=$2
 LDAP_BINDDN=$3
 LDAP_PASS=$4
+SAMBA_FIRSTBOOT=$5
 
 # update samba config with ldap parameters
 CONF=/etc/samba/smb.conf
@@ -46,9 +48,7 @@ CONF=/usr/local/bin/ldapmapuser.sh
 sed -i "s|ldap:.*|ldap://$LDAP_SERVER -b \"$LDAP_BASEDN\" \\\\|" $CONF
 
 # start samba and enable on system startup after configured
-if [ "$SAMBA_FIRSTBOOT" == "1" ]; then
-    echo>$SAMBA_INIT
-else
+if [ "$SAMBA_FIRSTBOOT" == "0" ]; then
     update-rc.d samba defaults
     /etc/init.d/samba start
 fi

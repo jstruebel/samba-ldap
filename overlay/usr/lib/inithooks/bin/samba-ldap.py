@@ -2,10 +2,11 @@
 """Set nss-ldapd connection parameters
 
 Option:
-    --base=     unless provided, will ask interactively
-    --binddn=   unless provided, will ask interactively
-    --pass=     unless provided, will ask interactively
-    --server=   unless provided, will ask interactively
+    --base=      unless provided, will ask interactively
+    --binddn=    unless provided, will ask interactively
+    --pass=      unless provided, will ask interactively
+    --server=    unless provided, will ask interactively
+    --firstboot= unless provided, will assume = 0
 
 """
 
@@ -37,6 +38,7 @@ def main():
     ldap_user = ""
     server = ""
     password = ""
+    firstboot = ""
     for opt, val in opts:
         if opt in ('-h', '--help'):
             usage()
@@ -48,6 +50,8 @@ def main():
             ldap_base = val
         elif opt == '--binddn':
             ldap_user = val
+        elif opt == '--firstboot':
+            firstboot = val
 
     if not ldap_base:
         d = Dialog('TurnKey Linux - First boot configuration')
@@ -86,8 +90,11 @@ def main():
             "Enter the LDAP Server.",
             DEFAULT_SERVER)
 
+    if not firstboot:
+        firstboot = 0
+
     script = os.path.join(os.path.dirname(__file__), 'samba-ldap-reinit.sh')
-    system(script, server, ldap_base, ldap_user, password)
+    system(script, server, ldap_base, ldap_user, password, firstboot)
 
 if __name__ == "__main__":
     main()
