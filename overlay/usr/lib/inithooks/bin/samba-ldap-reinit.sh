@@ -49,7 +49,11 @@ sed -i "s|ldap:.*|ldap://$LDAP_SERVER -b \"$LDAP_BASEDN\" \\\\|" $CONF
 
 # start samba and enable on system startup after configured
 if [ "$SAMBA_FIRSTBOOT" == "0" ]; then
-    update-rc.d samba defaults
+    if [ -f /bin/systemctl ]; then
+        systemctl enable samba.service
+    else
+        update-rc.d samba defaults
+    fi
     /etc/init.d/samba start
 fi
 
