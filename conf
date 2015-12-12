@@ -26,8 +26,10 @@ sed -i "s|passdb backend.*|passdb backend = ldapsam:ldap://127.0.0.1\n\n    ldap
 
 # prevent samba from starting on system boot until LDAP settings are configured
 if [ -f /bin/systemctl ]; then
-    systemctl disable samba.service
+    systemctl disable smbd.service
+    systemctl disable nmbd.service
 else
-    update-rc.d -f samba remove
+    update-rc.d -f smbd remove
+    update-rc.d -f nmbd remove
 fi
 
